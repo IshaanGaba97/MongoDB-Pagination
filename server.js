@@ -19,8 +19,11 @@ app.get("/users", async (req, res) => {
   
       const searchKeysArray = Array.isArray(searchKeys) ? searchKeys : [searchKeys];
       const searchString = searchKeysArray.join("");
-
-      const selectionString = selectionKeys.split(',').join(" ");
+      
+      let selectionString;
+      if(selectionKeys){
+        selectionString = selectionKeys.split(',').join(" ");
+      }
 
       const query = {};
   
