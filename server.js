@@ -14,12 +14,13 @@ app.get("/users", async (req, res) => {
         skip = 0,
         limit = 10,
         selectionKeys,
-        searchKeys = [],
+        searchKeys,
       } = req.query;
-  
-      const searchKeysArray = Array.isArray(searchKeys) ? searchKeys : [searchKeys];
-      const searchString = searchKeysArray.join("");
-      
+
+      // const searchKeysArray = Array.isArray(searchKeys) ? searchKeys : [searchKeys];
+      // const searchString = searchKeysArray.join("");
+      const searchString = searchKeys;
+
       let selectionString;
       if(selectionKeys){
         selectionString = selectionKeys.split(',').join(" ");
@@ -31,7 +32,6 @@ app.get("/users", async (req, res) => {
         const regex = new RegExp(`^${searchString}`, "i");
         query.$or = [{ name: regex }, { email: regex }];
       }
-      
       const users = await User.find(query).skip(parseInt(skip)).limit(parseInt(limit)).select(selectionString).exec();
   
       return res.status(200).json(users);
